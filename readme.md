@@ -36,6 +36,7 @@ python schedule.py --tag latina
 
 **Note:** If the `output` folder or the `extract` sub-folder do not exist, the program will create them automatically.
 
+5. After the data has been extracted, the program will process it and create a new CSV file inside a sub-folder called `transform` in the `output` folder. This CSV file will contain the following data columns: `model`, `age`, `gender`, `link`, `time`, `viewers`, `tags`, `pages`, `impression`, and `date`.
 
 ## Contributing
 
