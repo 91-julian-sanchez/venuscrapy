@@ -22,8 +22,8 @@ def days_to_mins(x):
 def convert_time(df):
     df["original_time"] = df["time"]
     def get_minutes(x):
-        if "day" in x:
-            return days_to_mins(float(x.rstrip(" day")))
+        if "day" in x or "days" in x :
+            return days_to_mins(float(x.replace(" days", "").replace(" day", "")))
         elif "hrs" in x:
             return hours_to_mins(float(x.rstrip(" hrs")))
         else:
