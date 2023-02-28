@@ -1,5 +1,6 @@
 import pandas as pd
 import argparse
+import os
 # Se define el objeto para procesar los argumentos de línea de comandos.
 parser = argparse.ArgumentParser()
 parser.add_argument("--tag", type=str, required=True,
@@ -57,4 +58,6 @@ df = sort(df)
 df['date'] = timestamp
 
 # Se guarda el DataFrame resultante en un archivo CSV.
+output_dir = 'output/transform'
+os.makedirs(output_dir, exist_ok=True)
 df.to_csv(f'output/transform/chaturbate-{tag}-{timestamp}.csv')
