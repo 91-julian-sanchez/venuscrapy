@@ -31,12 +31,17 @@ Replace `<tag_name>` with the category of Chaturbate that you want to scrape. Fo
 python schedule.py --tag latina
 ```
 
-
 4. The program will gather data about the selected category and store it in a CSV file inside a folder named `output` in the current directory. Inside the `output` folder, there will be a sub-folder called `extract`, where the scraped CSV files will be stored.
 
-**Note:** If the `output` folder or the `extract` sub-folder do not exist, the program will create them automatically.
-
 5. After the data has been extracted, the program will process it and create a new CSV file inside a sub-folder called `transform` in the `output` folder. This CSV file will contain the following data columns: `model`, `age`, `gender`, `link`, `time`, `viewers`, `tags`, `pages`, `impression`, and `date`.
+
+6. To combine all the CSV files in the output/transform folder into a single CSV file, run the following command in the terminal:
+
+```python 
+python load.py --tag <tag_name>
+```
+
+This will create a new CSV file named <tag_name>.csv in a sub-folder called load inside the output folder.
 
 ## Contributing
 
