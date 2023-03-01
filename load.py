@@ -1,5 +1,14 @@
-import os
 import pandas as pd
+import argparse
+import os
+# Se define el objeto para procesar los argumentos de línea de comandos.
+parser = argparse.ArgumentParser()
+parser.add_argument("--tag", type=str, required=True,
+                    help="Tag to filter on")
+args = parser.parse_args()
+
+# Se asignan los valores de los argumentos a las variables correspondientes.
+tag = args.tag
 
 # Ruta de la carpeta que contiene los archivos CSV
 path = './output/transform'
@@ -19,4 +28,6 @@ for filename in os.listdir(path):
 merged_df = pd.concat(dfs, ignore_index=True)
 df = merged_df[['model','age','gender','link','time','viewers','tags','impression','date']]
 # Guardamos el dataframe unido en un archivo CSV
-df.to_csv('output/load/latina.csv', index=False)
+output_dir = 'output/load'
+os.makedirs(output_dir, exist_ok=True)
+df.to_csv(f'output/load/{tag}.csv', index=False)

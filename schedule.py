@@ -20,4 +20,4 @@ tag = args.tag
 while True:
     logger.info(f"Ejecutando el comando 'python run.py --tag {tag}'")
     subprocess.run(["python", "run.py", "--tag", tag])
-    time.sleep((15 * 60)+(random.randint(1, 3))) # Esperar 30 minutos
+    time.sleep((15 * 60)+(random.randint(1, 3)))

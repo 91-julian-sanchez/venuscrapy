@@ -12,7 +12,6 @@ args = parser.parse_args()
 # Se asignan los valores de los argumentos a las variables correspondientes.
 tag = args.tag
 timestamp = args.timestamp
-print("tag: ",tag,"timestamp: ",timestamp)
 
 # Función para convertir la columna 'time' de minutos a horas.
 def hours_to_mins(x):
