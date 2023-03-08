@@ -13,25 +13,6 @@ args = parser.parse_args()
 tag = args.tag
 timestamp = args.timestamp
 
-# Función para convertir la columna 'time' de minutos a horas.
-def hours_to_mins(x):
-    return x * 60
-def days_to_mins(x):
-    return x * 24 * 60
-
-def convert_time(df):
-    df["original_time"] = df["time"]
-    def get_minutes(x):
-        if "day" in x or "days" in x :
-            return days_to_mins(float(x.replace(" days", "").replace(" day", "")))
-        elif "hrs" in x:
-            return hours_to_mins(float(x.rstrip(" hrs")))
-        else:
-            return float(x.rstrip(" mins"))
-    
-    df["time"] = df["time"].apply(get_minutes)
-    return df
-
 # Función para ordenar los datos según la cantidad de espectadores y la edad de los modelos.
 def sort(df):
     df = df.sort_values(by=[ 'viewers','age'], ascending=False)
@@ -50,7 +31,6 @@ def group_pages(df):
   
 # Leer el archivo CSV
 df = pd.read_csv(f'output/extract/chaturbate-{tag}-{timestamp}.csv')
-df = convert_time(df)
 df = group_by(df, ["model","age","gender","link"])
 df = group_pages(df)
 df = sort(df)

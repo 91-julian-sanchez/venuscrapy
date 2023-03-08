@@ -1,5 +1,5 @@
 import scrapy
-import datetime
+import re
 
 class ChaturbateSpider(scrapy.Spider):
     name = 'chaturbate'
@@ -22,6 +22,23 @@ class ChaturbateSpider(scrapy.Spider):
 
     def build_next_page(self, counter):
         return "?page="+str(counter)
+
+    def time_to_minutes(self, x):
+        pattern = re.compile(r'(\d+\.?\d*)\s*(day|days|hrs|min|mins)')
+        match = pattern.search(x)
+        if match:
+            time = float(match.group(1))
+            unit = match.group(2)
+            if unit in ['day', 'days']:
+                return time * 24 * 60
+            elif unit in ['hrs']:
+                return time * 60
+            elif unit in ['min','mins']:
+                return time
+            else:
+                return -1
+        else:
+            return -1
     
     def parse(self, response): 
         for room in response.css('li.room_list_room'):
@@ -29,7 +46,8 @@ class ChaturbateSpider(scrapy.Spider):
                 'model': room.css('div.title a::text').get().strip(),
                 'age': room.css('span.age::text').get().strip(),
                 'viewers': (room.css('span.viewers::text').get().strip()).replace(" viewers", ""),
-                'time':  room.css('span.time::text').get().strip(),
+                'time':  self.time_to_minutes(room.css('span.time::text').get().strip()),
+                'time_label':  room.css('span.time::text').get().strip(),
                 'tags':  room.css("[data-floatingnav]::text").extract(),
                 'gender': room.xpath('//div[@class="age_gender_container"]/span[2]/@title').get().strip(),
                 'link':  "https://chaturbate.com/"+room.css('div.title a::text').get().strip()+"/",
