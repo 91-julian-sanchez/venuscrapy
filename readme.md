@@ -41,6 +41,10 @@ python schedule.py --tag latina
 python load.py --tag <tag_name>
 ```
 
+7. ```bash 
+cd analyze && python load.py --tag <tag_name>
+```
+
 This will create a new CSV file named <tag_name>.csv in a sub-folder called load inside the output folder.
 
 ## Contributing

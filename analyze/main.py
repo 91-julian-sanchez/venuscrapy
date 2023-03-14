@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--tag", type=str, required=True,
                     help="Tag to filter on")
 parser.add_argument("--hours", type=str, 
-                        default=3000,
+                        default=168,
                     help="Tag to filter on")
 args = parser.parse_args()
 # Se asignan los valores de los argumentos a las variables correspondientes.
