@@ -3,12 +3,7 @@ import re
 
 class ChaturbateSpider(scrapy.Spider):
     name = 'chaturbate'
-    # allowed_domains = ['https://chaturbate.com']
-    # start_urls = ['https://chaturbate.com/']
     page_counter = 1
-    # custom_settings = {
-    #     'FEEDS': { f'./output/extract/chaturbate-latina-{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv': { 'format': 'csv',}}
-    # }
     def start_requests(self):
         urls = [
             'https://chaturbate.com/',

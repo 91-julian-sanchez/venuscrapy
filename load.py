@@ -30,4 +30,4 @@ df = merged_df[['model','age','gender','link','time','viewers','tags','impressio
 # Guardamos el dataframe unido en un archivo CSV
 output_dir = 'output/load'
 os.makedirs(output_dir, exist_ok=True)
-df.to_csv(f'output/load/{tag}.csv', index=False)
+df.to_csv(f'output/load/chaturbate-{tag}.csv', index=False)

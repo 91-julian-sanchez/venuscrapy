@@ -34,6 +34,7 @@ df = pd.read_csv(f'output/extract/chaturbate-{tag}-{timestamp}.csv')
 df = group_by(df, ["model","age","gender","link"])
 df = group_pages(df)
 df = sort(df)
+df['tags'] = df['tags'].str.replace('#', '')
 df['date'] = timestamp
 
 # Se guarda el DataFrame resultante en un archivo CSV.
