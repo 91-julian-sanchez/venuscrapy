@@ -3,9 +3,7 @@ from bokeh.models import ColumnDataSource
 from bokeh.io import show
 from bokeh.layouts import column
 from bokeh.models.widgets import DataTable, TableColumn
-from bokeh.io import show
 from bokeh.models import Div
-from bokeh.layouts import column
 
 def build_table(df):
     # Ordenar el DataFrame por la columna 'viewers' en orden descendente
@@ -39,9 +37,8 @@ def build_table(df):
 #     show(column(image))
     
 
-def buildPlot(df):
-   table = build_table(df)
-   show(column(table))
-#    show(column(table, image))
+def build_plot(df):
+    return build_table(df)
+    # show(column(table, image))
 
     
