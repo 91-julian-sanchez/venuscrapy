@@ -7,7 +7,7 @@
 import pandas as pd
 
 # Cargue su dataframe
-df = pd.read_csv("../output/load/latina.csv")
+df = pd.read_csv("../output/load/chaturbate-{tag}.csv")
 
 # Calcular la correlación entre las dos columnas
 correlation = df['age'].corr(df['impression'])

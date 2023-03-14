@@ -1,9 +1,22 @@
 # Importamos las librerías necesarias
+import argparse
 import pandas as pd
+from plots import buildPlot
 from filter import filter_dataframe
+# Se define el objeto para procesar los argumentos de línea de comandos.
+parser = argparse.ArgumentParser()
+parser.add_argument("--tag", type=str, required=True,
+                    help="Tag to filter on")
+parser.add_argument("--hours", type=str, 
+                        default=4000,
+                    help="Tag to filter on")
 
+args = parser.parse_args()
+# Se asignan los valores de los argumentos a las variables correspondientes.
+tag = args.tag
+hours = args.hours
 # Leemos el archivo CSV en un DataFrame
-df = filter_dataframe(pd.read_csv('../output/load/latina.csv'), hours=1000)
+df = filter_dataframe(pd.read_csv(f'../../output/load/chaturbate-{tag}.csv'), hours=hours)
 
 # Imprimimos un resumen de los datos filtrados
 print(df.info())
@@ -16,8 +29,6 @@ for index, row in df.iterrows():
     if not pd.isnull(row['tags']):
         # Separar el valor de la columna de etiquetas (tags) en una lista de hashtags
         hashtags = row['tags'].split(',')
-        # Eliminar los caracteres de hashtag (#) de cada etiqueta
-        hashtags = [tag.strip('#') for tag in hashtags]
         # Iterar por cada hashtag en la lista
         for hashtag in hashtags:
             # Buscar si el hashtag ya está en el nuevo DataFrame
@@ -40,7 +51,7 @@ new_df['age'] = new_df['age'] / new_df['count']
 new_df = new_df.drop(columns=['count'])
 
 # Eliminar la fila que contiene el hashtag "#happy"
-new_df = new_df.drop(new_df[new_df['hashtag'] == 'latina'].index)
+new_df = new_df.drop(new_df[new_df['hashtag'] == tag].index)
 
 print(new_df)
 
@@ -52,42 +63,4 @@ hashtag_viewer_array = hashtag_viewer_df.to_numpy()
 
 # Imprimir el array
 print(hashtag_viewer_array)
-
-from bokeh.models import ColumnDataSource
-from bokeh.io import show
-from bokeh.layouts import column
-from bokeh.models.widgets import DataTable, TableColumn
-
-# Crear una fuente de datos a partir del DataFrame
-source = ColumnDataSource(new_df)
-
-# Crear las columnas de la tabla
-columns = [TableColumn(field="hashtag", title="Hashtag"),
-           TableColumn(field="viewers", title="Viewers"),
-           TableColumn(field="impression", title="Impression"),
-           TableColumn(field="age", title="Age")]
-
-# Crear la tabla utilizando DataTable
-table = DataTable(source=source, columns=columns, width=400, height=400)
-
-# Mostrar la tabla en un layout
-# show(column(table))
-
-from wordcloud import WordCloud
-from bokeh.io import show
-from bokeh.models import Div
-from bokeh.layouts import column
-
-# Crear una lista de tuplas (hashtag, viewers) a partir del DataFrame
-hashtag_viewers = [(row["hashtag"], row["viewers"]) for index, row in new_df.iterrows()]
-
-# Crear la nube de palabras y guardarla en un archivo
-wordcloud = WordCloud(width=400, height=200, background_color="white").generate_from_frequencies(dict(hashtag_viewers))
-wordcloud.to_file("wordcloud.png")
-
-# Crear una imagen de la nube de palabras
-image = Div(text='<img src="wordcloud.png">')
-
-# Mostrar la imagen en un layout
-# show(column(image))
-show(column(table, image))
+buildPlot(new_df)
